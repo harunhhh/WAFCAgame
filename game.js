@@ -3,52 +3,52 @@ function rand(num) {
     return Math.floor(Math.random() * num);
 }
 
-var JIKISIZE = 24;      // ©•ª‚ÌƒTƒCƒY
-var SCROLL = 0;         // “¹˜H‚ÌƒXƒNƒ[ƒ‹‘¬“x
-var ENEMYSPEED =  5;      // “G‚ÌˆÚ“®‘¬“x
-var ITEMINTERVAL = 10;   // ƒAƒCƒeƒ€‚ÌoŒ»ŠÔŠu
+var JIKISIZE = 24;      //      ÌƒT C Y
+var SCROLL = 0;         //    H ÌƒX N   [     x
+var ENEMYSPEED =  5;      //  G ÌˆÚ“    x
+var ITEMINTERVAL = 10;   //  A C e   Ìo   ÔŠu
 
-//  ƒvƒŒƒCƒ„[‚ÉŠÖ‚·‚é‰Šúİ’è
-var MAXLIFE = 5;      // ƒvƒŒƒCƒ„[‚ÌÅ‘åƒ‰ƒCƒt
-var GOAL_SCORE = 3000; // –Ú•WƒXƒRƒA
-var MAX_SPEED_LEVEL = 5; // Å‘åƒXƒs[ƒhƒŒƒxƒ‹
-var GOAL_TIME_SECONDS = 15;  //§ŒÀŠÔ
+//   v   C   [ ÉŠÖ‚  é‰   İ’ 
+var MAXLIFE = 5;      //  v   C   [ ÌÅ‘åƒ‰ C t
+var GOAL_SCORE = 3000; //  Ú•W X R A
+var MAX_SPEED_LEVEL = 5; //  Å‘ X s [ h   x  
+var GOAL_TIME_SECONDS = 15;  //        
 
-// --- ššš ƒeƒLƒXƒgƒf[ƒ^‚ğˆêŒ³ŠÇ— ššš ---
-var selectedLanguage = 'jp'; // ƒfƒtƒHƒ‹ƒgŒ¾Œê
+// ---         e L X g f [ ^   êŒ³ Ç—         ---
+var selectedLanguage = 'jp'; //  f t H   g    
 var TEXTS = {
-    // Œ¾Œê‘I‘ğ‰æ–Ê
-    selectLang:     { jp: "Œ¾Œê‚ğ‘I‘ğ‚µ‚Ä‚­‚¾‚³‚¢", en: "SELECT LANGUAGE" },
-    japanese:       { jp: "“ú–{Œê",               en: "JAPANESE" },
-    english:        { jp: "‰pŒê",                 en: "ENGLISH" },
-    // —V‚Ñ•û‰æ–Ê (howToPlay‚Íƒ^ƒCƒgƒ‹‚Å‚àg—p)
-    howToPlay:      { jp: "‚ ‚»‚Ñ‚©‚½",         en: "HOW TO PLAY" },
-    move:           { jp: "–îˆóƒL[: ‚¢‚Ç‚¤",   en: "ARROW KEYS: MOVE" },
-    itemSpeedDesc:  { jp: "FƒXƒs[ƒhƒAƒbƒv",     en: ": SPEED UP" },
-    itemLifeDesc:   { jp: "Fƒ‰ƒCƒt‚©‚¢‚Ó‚­",     en: ": LIFE RECOVER" },
-    howToDetails:   { jp: "áŠQ•¨‚ğ”ğ‚¯‚ÄƒAƒCƒeƒ€‚ğW‚ß‚Ä‚ƒXƒRƒA‚ğ–Úw‚»‚¤I", en: "Avoid obstacles, collect items, and aim for a high score!" },
-    continue:       { jp: "ƒNƒŠƒbƒN‚µ‚Ä‚·‚·‚Ş",   en: "CLICK TO CONTINUE" },
-    // ƒ^ƒCƒgƒ‹‰æ–Ê
-    start:          { jp: "ƒNƒŠƒbƒN‚µ‚ÄƒXƒ^[ƒg", en: "CLICK TO START" },
-    // ƒQ[ƒ€‰æ–Ê
-    time:           { jp: "ƒ^ƒCƒ€: ",          en: "TIME: " },
-    score:          { jp: "ƒXƒRƒA: ",          en: "SCORE: " },
-    life:           { jp: "ƒ‰ƒCƒt: ",          en: "LIFE: " },
-    spd:            { jp: "ƒXƒs[ƒh: ",        en: "SPD: " },
-    spdMax:         { jp: "ƒXƒs[ƒh: MAX",     en: "SPD: MAX" },
-    // ƒŠƒUƒ‹ƒg‰æ–Ê
-    gameClear:      { jp: "ƒQ[ƒ€I—¹",       en: "GAME CLEAR" },
-    gameOver:       { jp: "ƒQ[ƒ€ƒI[ƒo[",     en: "GAME OVER" },
-    finalScore:     { jp: "ÅIƒXƒRƒA: ",       en: "FINAL SCORE: " },
-    unpavedInfo:    { jp: "•Ü‘•‚³‚ê‚Ä‚¢‚È‚¢“¹‚Í‘–‚è‚É‚­‚¢‚Å‚·", en: "Unpaved roads are hard to travel on." },
-    donation1:      { jp: "‚ ‚È‚½‚ÌŠñ•t‚ÅA‘–‚è‚â‚·‚¢“¹‚Æ", en: "Donate to gift accessible roads" },
-    donation2:      { jp: "Ô‚¢‚·‚ğ‘¡‚è‚Ü‚µ‚å‚¤!",     en: "iand wheelchairs to Asia!" },
+    //     I     
+    selectLang:     { jp: "     I     Ä‚       ", en: "SELECT LANGUAGE" },
+    japanese:       { jp: "   {  ",               en: "JAPANESE" },
+    english:        { jp: " p  ",                 en: "ENGLISH" },
+    //  V Ñ•     (howToPlay Íƒ^ C g   Å‚  g p)
+    howToPlay:      { jp: "     Ñ‚   ",         en: "HOW TO PLAY" },
+    move:           { jp: "   L [:    Ç‚ ",   en: "ARROW KEYS: MOVE" },
+    itemSpeedDesc:  { jp: " F X s [ h A b v",     en: ": SPEED UP" },
+    itemLifeDesc:   { jp: " F   C t     Ó‚ ",     en: ": LIFE RECOVER" },
+    howToDetails:   { jp: "  Q        ÄƒA C e     W ß‚Ä  X R A  Úw     I", en: "Avoid obstacles, collect items, and aim for a high score!" },
+    continue:       { jp: " N   b N   Ä‚     ",   en: "CLICK TO CONTINUE" },
+    //  ^ C g     
+    start:          { jp: " N   b N   ÄƒX ^ [ g", en: "CLICK TO START" },
+    //  Q [     
+    time:           { jp: " ^ C  : ",          en: "TIME: " },
+    score:          { jp: " X R A: ",          en: "SCORE: " },
+    life:           { jp: "   C t: ",          en: "LIFE: " },
+    spd:            { jp: " X s [ h: ",        en: "SPD: " },
+    spdMax:         { jp: " X s [ h: MAX",     en: "SPD: MAX" },
+    //    U   g   
+    gameClear:      { jp: " Q [   I  ",       en: "GAME CLEAR" },
+    gameOver:       { jp: " Q [   I [ o [",     en: "GAME OVER" },
+    finalScore:     { jp: " ÅI X R A: ",       en: "FINAL SCORE: " },
+    unpavedInfo:    { jp: " Ü‘     Ä‚  È‚    Í‘   É‚    Å‚ ", en: "Unpaved roads are hard to travel on." },
+    donation1:      { jp: "   È‚  ÌŠ t ÅA    â‚·      ", en: "Donate to gift accessible roads" },
+    donation2:      { jp: " Ô‚    ğ‘¡‚ Ü‚  å‚¤!",     en: "iand wheelchairs to Asia!" },
     donationURL:    { jp: "https://wafca.jp/support/donation.html", en: "https://wafca.jp/support/donation.html" },
-    restart:        { jp: "ƒNƒŠƒbƒN‚µ‚ÄƒŠƒXƒ^[ƒg", en: "Click to restart" }
+    restart:        { jp: " N   b N   Äƒ  X ^ [ g", en: "Click to restart" }
 };
 // ---------------------------------------------
 
-// ƒQ[ƒ€‚Ìó‘Ô‚ğ•Û‚·‚éƒOƒ[ƒoƒ‹•Ï”
+//  Q [   Ì Ô‚ Û     O   [ o   Ï 
 var currentScore = 0;
 var currentLife = 0;
 var currentSpeedLevel = 0;
@@ -56,17 +56,17 @@ var gameTimer = 0;
 var enemyArray = [];
 var player = null;
 
-// ƒ‰ƒxƒ‹ƒIƒuƒWƒFƒNƒg‚ğ•Û‚·‚éƒOƒ[ƒoƒ‹•Ï”
+//    x   I u W F N g  Û     O   [ o   Ï 
 var scoreLabel, lifeLabel, speedLabel, timerLabel;
 
-// ”wŒiƒNƒ‰ƒX‚Ì’è‹`
+//  w i N   X Ì’ `
 var Background = Class.create(Group, {
     initialize: function() {
         Group.call(this);
         var img = core.assets['back.png'];
         if (!img) {
-             console.error("”wŒi‰æ‘œ 'back.png' ‚ªŒ©‚Â‚©‚è‚Ü‚¹‚ñB");
-             this.imageHeight = 240; // ƒfƒtƒHƒ‹ƒg’l
+             console.error(" w i æ‘œ 'back.png'      Â‚   Ü‚   B");
+             this.imageHeight = 240; //  f t H   g l
         } else {
             this.imageHeight = img.height;
         }
@@ -92,7 +92,7 @@ var Background = Class.create(Group, {
 });
 
 
-// ƒQ[ƒ€‚ÌƒƒCƒ“ƒƒWƒbƒN‚ğŠÖ”‰»
+//  Q [   Ìƒ  C     W b N   Ö   
 function startGame() {
     var gameScene = new Scene();
 
@@ -144,30 +144,30 @@ function startGame() {
     core.replaceScene(gameScene);
 }
 
-// —V‚Ñ•ûà–¾‰æ–Ê
+//  V Ñ•        
 function createHowToPlayScene() {
     var howToScene = new Scene();
     howToScene.backgroundColor = 'black';
 
-    // 1. ƒ^ƒCƒgƒ‹ ("‚ ‚»‚Ñ‚©‚½")
+    // 1.  ^ C g   ("     Ñ‚   ")
     var title = new Label(TEXTS.howToPlay[selectedLanguage]);
     title.color = "white"; title.font = "20px 'MS Gothic', sans-serif"; title.textAlign = 'center';
     title.width = core.width; title.x = 0; title.y = 20;
     howToScene.addChild(title);
 
-    // 2. ‘€ì•û–@ ("–îˆóƒL[: ‚¢‚Ç‚¤")
+    // 2.       @ ("   L [:    Ç‚ ")
     var controls = new Label(TEXTS.move[selectedLanguage]);
     controls.color = "white"; controls.font = "16px 'MS Gothic', sans-serif"; controls.textAlign = 'center';
     controls.width = core.width; controls.x = 0; controls.y = 50;
     howToScene.addChild(controls);
 
-    // 2.5. –Ú•W‚Ìà–¾
+    // 2.5.  Ú•W Ì   
     var details = new Label(TEXTS.howToDetails[selectedLanguage]);
     details.color = "white"; details.font = "16px 'MS Gothic', sans-serif"; details.textAlign = 'center';
-    details.width = core.width; details.x = 0; details.y = 70; // 'controls' ‚Ì‰º‚É”z’u
+    details.width = core.width; details.x = 0; details.y = 70; // 'controls'  Ì‰  É”z u
     howToScene.addChild(details);
 
-    // 3. ƒAƒCƒeƒ€à–¾ (ƒXƒs[ƒh)
+    // 3.  A C e       ( X s [ h)
     var speedItemImg = new Sprite(32, 32);
     if (core.assets['speed.png'] && core.assets['speed.png'].width > 0) {
         speedItemImg.image = core.assets['speed.png'];
@@ -175,16 +175,16 @@ function createHowToPlayScene() {
         speedItemImg.backgroundColor = 'red';
     }
     speedItemImg.x = 70;
-    speedItemImg.y = 100; // YÀ•W
+    speedItemImg.y = 100; // Y   W
     howToScene.addChild(speedItemImg);
     
-    var speedDesc = new Label(TEXTS.itemSpeedDesc[selectedLanguage]); // "FƒXƒs[ƒhƒAƒbƒv"
+    var speedDesc = new Label(TEXTS.itemSpeedDesc[selectedLanguage]); // " F X s [ h A b v"
     speedDesc.color = "white"; speedDesc.font = "16px 'MS Gothic', sans-serif";
     speedDesc.x = speedItemImg.x + speedItemImg.width + 5;
     speedDesc.y = speedItemImg.y + 8;
     howToScene.addChild(speedDesc);
 
-    // 4. ƒAƒCƒeƒ€à–¾ (ƒ‰ƒCƒt)
+    // 4.  A C e       (   C t)
     var lifeItemImg = new Sprite(32, 32);
     if (core.assets['life.png'] && core.assets['life.png'].width > 0) {
         lifeItemImg.image = core.assets['life.png'];
@@ -192,23 +192,23 @@ function createHowToPlayScene() {
         lifeItemImg.backgroundColor = 'blue';
     }
     lifeItemImg.x = 70;
-    lifeItemImg.y = 150; // YÀ•W
+    lifeItemImg.y = 150; // Y   W
     howToScene.addChild(lifeItemImg);
     
-    var lifeDesc = new Label(TEXTS.itemLifeDesc[selectedLanguage]); // "Fƒ‰ƒCƒt‚©‚¢‚Ó‚­"
+    var lifeDesc = new Label(TEXTS.itemLifeDesc[selectedLanguage]); // " F   C t     Ó‚ "
     lifeDesc.color = "white"; lifeDesc.font = "16px 'MS Gothic', sans-serif";
     lifeDesc.x = lifeItemImg.x + lifeItemImg.width + 5;
     lifeDesc.y = lifeItemImg.y + 8;
     howToScene.addChild(lifeDesc);
 
-    // 5. Ÿ‚Öi‚ŞƒeƒLƒXƒg ("ƒNƒŠƒbƒN‚µ‚Ä‚·‚·‚Ş")
+    // 5.    Öi Şƒe L X g (" N   b N   Ä‚     ")
     var continueText = new Label(TEXTS.continue[selectedLanguage]);
     continueText.color = "white"; continueText.font = "18px 'MS Gothic', sans-serif"; continueText.textAlign = 'center';
     continueText.width = core.width; continueText.x = 0; continueText.y = 210;
     continueText.onenterframe = function() { this.opacity = (core.frame % 20 < 10) ? 1 : 0.5; };
     howToScene.addChild(continueText);
 
-    // 6. ƒNƒŠƒbƒNƒCƒxƒ“ƒg (ƒ^ƒCƒgƒ‹‰æ–Ê‚Ö)
+    // 6.  N   b N C x   g ( ^ C g    Ê‚ )
     howToScene.addEventListener(Event.TOUCH_END, function() {
         startGame();
     });
@@ -216,7 +216,7 @@ function createHowToPlayScene() {
     core.replaceScene(howToScene);
 }
 
-// Œ¾Œê‘I‘ğ‰æ–Ê
+//     I     
 function createLangSelectScene() {
     var langScene = new Scene();
     langScene.backgroundColor = 'black';
@@ -242,12 +242,12 @@ function createLangSelectScene() {
 }
 
 
-// ššš ƒQ[ƒ€ŠJn‚ÌƒGƒ“ƒgƒŠ[ƒ|ƒCƒ“ƒg ššš
+//         Q [   J n   ÌƒG   g   [ | C   g       
 window.onload=function(){
     core = new Core(320,240);
     core.fps=30;
 
-    // ššš preloadƒŠƒXƒg ššš
+    //        preload   X g       
     core.preload(
         'girl.png',
         'back.png',
@@ -256,33 +256,25 @@ window.onload=function(){
         "kan.png",
         "isi.png",
         "kiretu.png",
-        "blast.png"
     );
 
     core.onload = function () {
-        createLangSelectScene(); // Å‰‚ÉŒ¾Œê‘I‘ğ‰æ–Ê‚ğŒÄ‚Ño‚·
+        createLangSelectScene(); //  Å  ÉŒ   I    Ê‚  Ä‚Ño  
     }
     core.start();
 }
 
-// ššš ”š”­ƒGƒtƒFƒNƒg (Blast) ƒNƒ‰ƒX (•œŠˆ) ššš
+//             G t F N g (Blast)  N   X (    )       
 Blast = Class.create(Sprite,{
     initialize: function(x,y){
         Sprite.call(this,32,32);
-        var img = core.assets['blast.png'];
-        if (img && img.width > 0 && img.height > 0) {
-            this.image = img;
-        } else {
-            console.error("'blast.png' ‚ªŒ©‚Â‚©‚è‚Ü‚¹‚ñB");
-            this.backgroundColor = 'orange'; // ƒtƒH[ƒ‹ƒoƒbƒN
-        }
         this.frame=0; this.x=x; this.y=y;
     },
     onenterframe: function(){ this.y+=SCROLL; this.frame++; if(this.frame>15) this.remove(); },
     remove: function(){ if (this.parentNode) { this.parentNode.removeChild(this); } }
 });
 
-// ƒAƒCƒeƒ€ (ƒXƒs[ƒh)
+//  A C e   ( X s [ h)
 ItemSpeed = Class.create(Sprite,{
     initialize: function(x){
         var itemWidth = 32;
@@ -293,7 +285,7 @@ ItemSpeed = Class.create(Sprite,{
             this.image = img;
             this.scaleX = 1; this.scaleY = 1;
         } else {
-            console.error("'speed.png' ‚ªŒ©‚Â‚©‚ç‚È‚¢‚©A“Ç‚İ‚ß‚Ü‚¹‚ñBItemSpeed");
+            console.error("'speed.png'      Â‚   È‚    A Ç‚İ  ß‚Ü‚   BItemSpeed");
             Sprite.call(this, itemWidth, itemHeight);
             this.backgroundColor = 'red';
         }
@@ -320,7 +312,7 @@ ItemSpeed = Class.create(Sprite,{
     remove: function(){ if (this.parentNode) { this.parentNode.removeChild(this); } }
 });
 
-// ƒAƒCƒeƒ€ (ƒ‰ƒCƒt)
+//  A C e   (   C t)
 ItemLife = Class.create(Sprite, {
     initialize: function(x) {
         var itemWidth = 32;
@@ -331,7 +323,7 @@ ItemLife = Class.create(Sprite, {
             this.image = img;
             this.scaleX = 1; this.scaleY = 1;
         } else {
-             console.error("'life.png' ‚ªŒ©‚Â‚©‚ç‚È‚¢‚©A“Ç‚İ‚ß‚Ü‚¹‚ñBItemLife");
+             console.error("'life.png'      Â‚   È‚    A Ç‚İ  ß‚Ü‚   BItemLife");
              Sprite.call(this, itemWidth, itemHeight);
             this.backgroundColor = 'blue';
         }
@@ -352,7 +344,7 @@ ItemLife = Class.create(Sprite, {
     remove: function(){ if (this.parentNode) { this.parentNode.removeChild(this); } }
 });
 
-// ƒŠƒUƒ‹ƒg‰æ–Ê
+//    U   g   
 function showResultScene(isClear) {
     core.pause();
     var resultScene = new Scene();
@@ -364,20 +356,20 @@ function showResultScene(isClear) {
     finishText.width = core.width; finishText.x = 0; finishText.y = 30;
     resultScene.addChild(finishText);
 
-    // ÅIƒXƒRƒA (Y: 60)
+    //  ÅI X R A (Y: 60)
     var resultScoreText = new Label(TEXTS.finalScore[selectedLanguage] + currentScore);
     resultScoreText.color = "white"; resultScoreText.font = "16px 'MS Gothic', sans-serif"; resultScoreText.textAlign = 'center';
     resultScoreText.width = core.width; resultScoreText.x = 0; resultScoreText.y = 60;
     resultScene.addChild(resultScoreText);
 
-    //–¢•Ü‘•˜H‚ÌƒƒbƒZ[ƒW
+    //   Ü‘  H Ìƒ  b Z [ W
     var unpavedText = new Label(TEXTS.unpavedInfo[selectedLanguage]);
-    unpavedText.color = "#FFDDDD"; // ­‚µF‚ğ•Ï‚¦‚Ä–Ú—§‚½‚¹‚éi”–‚¢Ô/ƒsƒ“ƒNj
+    unpavedText.color = "#FFDDDD"; //      F  Ï‚  Ä–Ú—       i      / s   N j
     unpavedText.font = "14px 'MS Gothic', sans-serif"; 
     unpavedText.textAlign = 'center';
     unpavedText.width = core.width; 
     unpavedText.x = 0; 
-    unpavedText.y = 90; // ƒXƒRƒA‚Ì‰º‚É”z’u
+    unpavedText.y = 90; //  X R A Ì‰  É”z u
     resultScene.addChild(unpavedText);
 
     var donationText1 = new Label(TEXTS.donation1[selectedLanguage]);
@@ -397,13 +389,13 @@ function showResultScene(isClear) {
     donationLink.addEventListener(Event.TOUCH_END, function() { window.open(TEXTS.donationURL[selectedLanguage], '_blank'); });
 
     resultScene.onenter = function() {
-        var playerName = prompt(titleText + " –¼‘O‚ğ“ü—Í‚µ‚Ä‚­‚¾‚³‚¢i10•¶š‚Ü‚Åj", "PLAYER");
+        var playerName = prompt(titleText + "    O    Í‚  Ä‚        i10     Ü‚Åj", "PLAYER");
 
         if (playerName && playerName.trim() !== "") {
             var finalScore = currentScore;
             var finalTime = Math.floor(gameTimer / core.fps);
 
-            // eƒEƒBƒ“ƒhƒE(index.html)‚ÉƒXƒRƒAƒf[ƒ^‚ğ‘—M
+            //  e E B   h E(index.html) ÉƒX R A f [ ^ ğ‘—M
             if (window.parent) {
                 window.parent.postMessage({
                     type: 'saveScore',
@@ -412,23 +404,23 @@ function showResultScene(isClear) {
                     time: finalTime
                 }, '*');
 
-                console.log("ƒXƒRƒA‚ğeƒEƒBƒ“ƒhƒE‚É‘—M‚µ‚Ü‚µ‚½B");
+                console.log(" X R A  e E B   h E É‘  M   Ü‚    B");
             } else {
-                console.error("eƒEƒBƒ“ƒhƒE‚ªŒ©‚Â‚©‚è‚Ü‚¹‚ñB");
+                console.error(" e E B   h E     Â‚   Ü‚   B");
             }
             
 
         } 
     };
-    var restartText = new Label(TEXTS.restart[selectedLanguage]); // "ƒNƒŠƒbƒN‚µ‚ÄƒŠƒXƒ^[ƒg"
+    var restartText = new Label(TEXTS.restart[selectedLanguage]); // " N   b N   Äƒ  X ^ [ g"
     restartText.color = "white";
     restartText.font = "16px 'MS Gothic', sans-serif";
     restartText.textAlign = 'center';
     restartText.width = core.width;
     restartText.x = 0;
-    restartText.y = 190; // •\¦ˆÊ’u
+    restartText.y = 190; //  \   Ê’u
     restartText.onenterframe = function() {
-        this.opacity = (core.frame % 20 < 10) ? 1 : 0.7; // “_–ÅƒGƒtƒFƒNƒg
+        this.opacity = (core.frame % 20 < 10) ? 1 : 0.7; //  _ ÅƒG t F N g
     };
     resultScene.addChild(restartText);
 
@@ -441,7 +433,7 @@ function showResultScene(isClear) {
 }
 
 
-// ƒAƒCƒeƒ€oŒ»
+//  A C e   o  
 function itemEnabler() {
     var itemWidth = 32;
     var itemMargin = itemWidth / 2;
@@ -458,7 +450,7 @@ function itemEnabler() {
     }
 }
 
-// UI‚ÌÄ•`‰æ
+// UI ÌÄ•`  
 function reDraw() {
     if (scoreLabel) { scoreLabel.text = TEXTS.score[selectedLanguage] + currentScore; }
     if (lifeLabel) { lifeLabel.text = TEXTS.life[selectedLanguage] + currentLife; }
@@ -479,7 +471,7 @@ function reDraw() {
     }
 }
 
-// “GƒNƒ‰ƒX
+//  G N   X
 Enemy = Class.create(Sprite,{
     initialize: function(x,y,moveX,moveY){
         Sprite.call(this,32,32);
@@ -494,12 +486,12 @@ Enemy = Class.create(Sprite,{
             default: img = core.assets['kan.png']; break;
         }
 
-        // Œµ–§‚È“Ç‚İ‚İƒ`ƒFƒbƒN
+        //      È“Ç‚İ  İƒ` F b N
         if (img && img.width > 0 && img.height > 0) {
             this.image = img;
         } else {
-            console.error("“G‚Ì‰æ‘œ‚ªŒ©‚Â‚©‚ç‚È‚¢‚©A“Ç‚İ‚ß‚Ü‚¹‚ñBƒ^ƒCƒv:", this.type);
-            this.backgroundColor = 'purple'; // ƒtƒH[ƒ‹ƒoƒbƒN
+            console.error(" G Ì‰æ‘œ     Â‚   È‚    A Ç‚İ  ß‚Ü‚   B ^ C v:", this.type);
+            this.backgroundColor = 'purple'; //  t H [   o b N
         }
         
         this.x=x; this.y=y;
@@ -529,19 +521,10 @@ Enemy = Class.create(Sprite,{
         if(player && player.parentNode && this.within(player,10) ){
             this.remove(); if (currentLife > 0) { currentLife--; }
         }
-    },
-    // ššš “G‚Ì remove ƒƒ\ƒbƒh (•œŠˆ) ššš
-    remove:function(){
-        var baku = new Blast(this.x, this.y);
-        if (this.parentNode) {
-            this.parentNode.addChild(baku);
-            this.parentNode.removeChild(this);
-        }
-        if (enemyArray[this.id]) { delete enemyArray[this.id]; }
     }
 });
 
-// ƒvƒŒƒCƒ„[ƒNƒ‰ƒX
+//  v   C   [ N   X
 Player = Class.create(Sprite, {
     initialize: function() {
         Sprite.call(this, JIKISIZE, JIKISIZE);
@@ -549,7 +532,7 @@ Player = Class.create(Sprite, {
         if (img) {
             this.image = img;
         } else {
-            console.error("'girl.png' ‚ªŒ©‚Â‚©‚è‚Ü‚¹‚ñB");
+            console.error("'girl.png'      Â‚   Ü‚   B");
             this.backgroundColor = 'white';
         }
         this.x = (core.width - JIKISIZE) / 2; this.y = core.height - JIKISIZE - 30;

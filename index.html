@@ -11,30 +11,30 @@
             background-color: #000; 
             font-family: 'MS Gothic', sans-serif;
             
-            /* ‰æ–Ê‘S‘Ì‚ÉL‚°A’†g‚ğ’†‰›‚É”z’u */
+            /* ï¿½ï¿½Ê‘Sï¿½Ì‚ÉLï¿½ï¿½ï¿½Aï¿½ï¿½ï¿½gï¿½ğ’†‰ï¿½ï¿½É”zï¿½u */
             display: grid;
             place-items: center;
             height: 95vh;
             width: 110vw;
-            overflow: hidden; /* ƒXƒNƒ[ƒ‹ƒo[‚ğ‰B‚· */
+            overflow: hidden; /* ï¿½Xï¿½Nï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½oï¿½[ï¿½ï¿½ï¿½Bï¿½ï¿½ */
         }
         #wrapper {
-            /* Šî€‚Æ‚È‚éƒTƒCƒY (ƒ‰ƒ“ƒLƒ“ƒO200px + —]”’20px + ƒQ[ƒ€320px) */
+            /* ï¿½î€ï¿½Æ‚È‚ï¿½Tï¿½Cï¿½Y (ï¿½ï¿½ï¿½ï¿½ï¿½Lï¿½ï¿½ï¿½O200px + ï¿½]ï¿½ï¿½20px + ï¿½Qï¿½[ï¿½ï¿½320px) */
             width: 540px; 
-            height: 240px; /* ƒQ[ƒ€‚Ì‚‚³‚É‡‚í‚¹‚é */
+            height: 240px; /* ï¿½Qï¿½[ï¿½ï¿½ï¿½Ìï¿½ï¿½ï¿½ï¿½Éï¿½ï¿½í‚¹ï¿½ï¿½ */
             
-            /* ’†g‚ğ‰¡•À‚Ñ‚É */
+            /* ï¿½ï¿½ï¿½gï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ñ‚ï¿½ */
             display: flex;
             
-            /* JavaScript‚ÅŠg‘åk¬‚³‚¹‚é‚½‚ß‚Ìİ’è */
+            /* JavaScriptï¿½ÅŠgï¿½ï¿½kï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½é‚½ï¿½ß‚Ìİ’ï¿½ */
             transform-origin: center center;
             transition: transform 0.1s ease-out;
         }
-        /* ƒ‰ƒ“ƒLƒ“ƒOƒ{[ƒh */
+        /* ï¿½ï¿½ï¿½ï¿½ï¿½Lï¿½ï¿½ï¿½Oï¿½{ï¿½[ï¿½h */
         #ranking-board {
             width: 200px;
             color: white;
-            order: 1; /* 1”Ô–Ú */
+            order: 1; /* 1ï¿½Ô–ï¿½ */
             height: 100%;
             box-sizing: border-box;
         }
@@ -69,12 +69,12 @@
             text-align: right;
         }
 
-        /* ƒQ[ƒ€‰æ–Ê (iframe) */
+        /* ï¿½Qï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½ (iframe) */
         #game-frame {
             width: 320px;
             height: 240px;
             border: none;
-            order: 2; /* 2”Ô–Ú */
+            order: 2; /* 2ï¿½Ô–ï¿½ */
             margin-left: 20px;
         }
     </style>
@@ -101,30 +101,30 @@
         function resizeGame() {
             var wrapper = document.getElementById('wrapper');
             
-            // Šî€‚Æ‚È‚éƒTƒCƒY (CSS‚Åİ’è‚µ‚½‚à‚Ì‚Æ“¯‚¶)
+            // ï¿½î€ï¿½Æ‚È‚ï¿½Tï¿½Cï¿½Y (CSSï¿½Åİ’è‚µï¿½ï¿½ï¿½ï¿½ï¿½Ì‚Æ“ï¿½ï¿½ï¿½)
             var baseWidth = 540;
             var baseHeight = 240;
             
-            // Œ»İ‚ÌƒEƒBƒ“ƒhƒEƒTƒCƒY
+            // ï¿½ï¿½ï¿½İ‚ÌƒEï¿½Bï¿½ï¿½ï¿½hï¿½Eï¿½Tï¿½Cï¿½Y
             var windowWidth = window.innerWidth;
             var windowHeight = window.innerHeight;
             
-            // •‚Æ‚‚³‚ÌŠg‘å—¦‚ğŒvZ
+            // ï¿½ï¿½ï¿½Æï¿½ï¿½ï¿½ï¿½ÌŠgï¿½å—¦ï¿½ï¿½ï¿½vï¿½Z
             var scaleX = windowWidth / baseWidth;
             var scaleY = windowHeight / baseHeight;
             
-            // ƒAƒXƒyƒNƒg”ä‚ğˆÛ‚·‚é‚½‚ßA¬‚³‚¢•û‚ÌŠg‘å—¦‚ğÌ—p
+            // ï¿½Aï¿½Xï¿½yï¿½Nï¿½gï¿½ï¿½ï¿½ï¿½Ûï¿½ï¿½ï¿½ï¿½é‚½ï¿½ßAï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÌŠgï¿½å—¦ï¿½ï¿½ï¿½Ì—p
             var scale = Math.min(scaleX, scaleY);
             
-            // Šg‘å—¦‚ğCSS‚Ìtransform‚É“K—p
+            // ï¿½gï¿½å—¦ï¿½ï¿½CSSï¿½ï¿½transformï¿½É“Kï¿½p
             wrapper.style.transform = 'scale(' + scale + ')';
         }
 
-        // ƒEƒBƒ“ƒhƒEƒTƒCƒY‚ª•Ï‚í‚Á‚½‚ÆA
+        // ï¿½Eï¿½Bï¿½ï¿½ï¿½hï¿½Eï¿½Tï¿½Cï¿½Yï¿½ï¿½ï¿½Ï‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÆA
         window.addEventListener('resize', resizeGame);
-        // ƒy[ƒW“Ç‚İ‚İ‚ªŠ®—¹‚µ‚½‚ÉAƒTƒCƒYŒvZ‚ğÀs
+        // ï¿½yï¿½[ï¿½Wï¿½Ç‚İï¿½ï¿½İ‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÉAï¿½Tï¿½Cï¿½Yï¿½vï¿½Zï¿½ï¿½ï¿½ï¿½ï¿½s
         window.addEventListener('load', resizeGame);
-        // XSS‘Îô—p‚ÌHTMLƒGƒXƒP[ƒvŠÖ”
+        // XSSï¿½Îï¿½ï¿½pï¿½ï¿½HTMLï¿½Gï¿½Xï¿½Pï¿½[ï¿½vï¿½Öï¿½
         function escapeHTML(str) {
             if (!str) return "";
             return str.replace(/[&<>"']/g, function(match) {
@@ -135,7 +135,7 @@
             });
         }
 
-        // Firebaseİ’è
+        // Firebaseï¿½İ’ï¿½
         const firebaseConfig = {
             apiKey: "AIzaSyBcB9nl0Gc-uBU3qv3S8tdkeCNaOiOuGZQ",
             authDomain: "rinti-game.firebaseapp.com",
@@ -149,13 +149,13 @@
         try {
             firebase.initializeApp(firebaseConfig);
             db = firebase.firestore();
-            db.settings({ persistence: false }); // ‹£‡‘Îô
-            setupRankingListener(); // ƒ‰ƒ“ƒLƒ“ƒOŠÄ‹‚ğŠJn
+            db.settings({ persistence: false }); // ï¿½ï¿½ï¿½ï¿½ï¿½Îï¿½
+            setupRankingListener(); // ï¿½ï¿½ï¿½ï¿½ï¿½Lï¿½ï¿½ï¿½Oï¿½Äï¿½ï¿½ï¿½ï¿½Jï¿½n
         } catch (e) {
-            console.error("Firebase‚Ì‰Šú‰»‚É¸”s‚µ‚Ü‚µ‚½:", e);
+            console.error("Firebaseï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Éï¿½ï¿½sï¿½ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½:", e);
         }
 
-        // ƒ‰ƒ“ƒLƒ“ƒOƒ{[ƒh‚ğƒŠƒAƒ‹ƒ^ƒCƒ€‚ÅXV
+        // ï¿½ï¿½ï¿½ï¿½ï¿½Lï¿½ï¿½ï¿½Oï¿½{ï¿½[ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½Aï¿½ï¿½ï¿½^ï¿½Cï¿½ï¿½ï¿½ÅXï¿½V
         function setupRankingListener() {
             var rankingListElement = document.getElementById("ranking-list");
             if (!db) {
@@ -165,10 +165,10 @@
 
             db.collection("scores").orderBy("score", "desc").limit(10)
               .onSnapshot(function(querySnapshot) {
-                  rankingListElement.innerHTML = ""; // ƒŠƒXƒg‚ğ‹ó‚É‚·‚é
+                  rankingListElement.innerHTML = ""; // ï¿½ï¿½ï¿½Xï¿½gï¿½ï¿½ï¿½ï¿½É‚ï¿½ï¿½ï¿½
                   var rank = 1;
                   if (querySnapshot.empty) {
-                      rankingListElement.innerHTML = "<li>‚Ü‚¾ƒXƒRƒA‚ª‚ ‚è‚Ü‚¹‚ñ</li>";
+                      rankingListElement.innerHTML = "<li>ï¿½Ü‚ï¿½ï¿½Xï¿½Rï¿½Aï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½</li>";
                       return;
                   }
                   querySnapshot.forEach(function(doc) {
@@ -183,27 +183,27 @@
                       rank++;
                   });
               }, function(error) {
-                  console.error("ƒ‰ƒ“ƒLƒ“ƒO‚Ìæ“¾‚É¸”s: ", error);
-                  rankingListElement.innerHTML = "<li>“Ç‚İ‚İ‚É¸”s</li>";
+                  console.error("ï¿½ï¿½ï¿½ï¿½ï¿½Lï¿½ï¿½ï¿½Oï¿½Ìæ“¾ï¿½Éï¿½ï¿½s: ", error);
+                  rankingListElement.innerHTML = "<li>ï¿½Ç‚İï¿½ï¿½İ‚Éï¿½ï¿½s</li>";
               });
         }
 
-        // ššš ƒQ[ƒ€(iframe)‚©‚çƒXƒRƒA‚ğó‚¯æ‚éƒŠƒXƒi[ ššš
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Qï¿½[ï¿½ï¿½(iframe)ï¿½ï¿½ï¿½ï¿½Xï¿½Rï¿½Aï¿½ï¿½ï¿½ó‚¯ï¿½éƒŠï¿½Xï¿½iï¿½[ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         window.addEventListener("message", function(event) {
-            // event.data ‚É { type: 'saveScore', name: 'PLAYER', score: 500, time: 30 } ‚Ì‚æ‚¤‚Èƒf[ƒ^‚ª‘—‚ç‚ê‚Ä‚­‚é
+            // event.data ï¿½ï¿½ { type: 'saveScore', name: 'PLAYER', score: 500, time: 30 } ï¿½Ì‚æ‚¤ï¿½Èƒfï¿½[ï¿½^ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½
             if (event.data && event.data.type === 'saveScore') {
                 if (db) {
                     db.collection("scores").add({
                         name: event.data.name.substring(0, 10),
                         score: event.data.score,
                         time: event.data.time,
-                        createdAt: firebase.firestore.FieldValue.serverTimestamp() // v8‚Ì‘‚«•û
+                        createdAt: firebase.firestore.FieldValue.serverTimestamp() // v8ï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½
                     })
                     .then(function() {
-                        console.log("ƒXƒRƒA‚ğ•Û‘¶‚µ‚Ü‚µ‚½B");
+                        console.log("ï¿½Xï¿½Rï¿½Aï¿½ï¿½Û‘ï¿½ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½ï¿½B");
                     })
                     .catch(function(error) {
-                        console.error("ƒXƒRƒA‚Ì•Û‘¶‚É¸”s: ", error);
+                        console.error("ï¿½Xï¿½Rï¿½Aï¿½Ì•Û‘ï¿½ï¿½Éï¿½ï¿½s: ", error);
                     });
                 }
             }
