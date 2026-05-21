@@ -1,54 +1,55 @@
 enchant();
+
 function rand(num) {
     return Math.floor(Math.random() * num);
 }
 
-var JIKISIZE = 24;      //      ̃T C Y
-var SCROLL = 0;         //    H ̃X N   [     x
-var ENEMYSPEED =  5;      //  G ̈ړ    x
-var ITEMINTERVAL = 10;   //  A C e   ̏o   Ԋu
+// ゲームの基本設定
+var JIKISIZE = 24;       // プレイヤーのサイズ
+var SCROLL = 0;          // 背景のスクロール速度
+var ENEMYSPEED = 5;      // 敵の基本移動速度
+var ITEMINTERVAL = 10;   // アイテムの出現間隔
 
-//   v   C   [ Ɋւ  鏉   ݒ 
-var MAXLIFE = 5;      //  v   C   [ ̍ő僉 C t
-var GOAL_SCORE = 3000; //  ڕW X R A
-var MAX_SPEED_LEVEL = 5; //  ő X s [ h   x  
-var GOAL_TIME_SECONDS = 15;  //        
+// プレイヤーに関する設定
+var MAXLIFE = 5;         // 最大ライフ
+var GOAL_SCORE = 3000;   // 目標スコア
+var MAX_SPEED_LEVEL = 5; // 最大スピードレベル
+var GOAL_TIME_SECONDS = 15; // 制限時間（秒）
 
-// ---         e L X g f [ ^   ꌳ Ǘ         ---
-var selectedLanguage = 'jp'; //  f t H   g    
+// 多言語対応テキストデータ
+var selectedLanguage = 'jp'; // デフォルト言語
 var TEXTS = {
-    //     I     
-    selectLang:     { jp: "     I     Ă       ", en: "SELECT LANGUAGE" },
-    japanese:       { jp: "   {  ",               en: "JAPANESE" },
-    english:        { jp: " p  ",                 en: "ENGLISH" },
-    //  V ѕ     (howToPlay ̓^ C g   ł  g p)
-    howToPlay:      { jp: "     т   ",         en: "HOW TO PLAY" },
-    move:           { jp: "   L [:    ǂ ",   en: "ARROW KEYS: MOVE" },
-    itemSpeedDesc:  { jp: " F X s [ h A b v",     en: ": SPEED UP" },
-    itemLifeDesc:   { jp: " F   C t     ӂ ",     en: ": LIFE RECOVER" },
-    howToDetails:   { jp: "  Q        ăA C e     W ߂č  X R A  ڎw     I", en: "Avoid obstacles, collect items, and aim for a high score!" },
-    continue:       { jp: " N   b N   Ă     ",   en: "CLICK TO CONTINUE" },
-    //  ^ C g     
-    start:          { jp: " N   b N   ăX ^ [ g", en: "CLICK TO START" },
-    //  Q [     
-    time:           { jp: " ^ C  : ",          en: "TIME: " },
-    score:          { jp: " X R A: ",          en: "SCORE: " },
-    life:           { jp: "   C t: ",          en: "LIFE: " },
-    spd:            { jp: " X s [ h: ",        en: "SPD: " },
-    spdMax:         { jp: " X s [ h: MAX",     en: "SPD: MAX" },
-    //    U   g   
-    gameClear:      { jp: " Q [   I  ",       en: "GAME CLEAR" },
-    gameOver:       { jp: " Q [   I [ o [",     en: "GAME OVER" },
-    finalScore:     { jp: " ŏI X R A: ",       en: "FINAL SCORE: " },
-    unpavedInfo:    { jp: " ܑ     Ă  Ȃ    ͑   ɂ    ł ", en: "Unpaved roads are hard to travel on." },
-    donation1:      { jp: "   Ȃ  ̊ t ŁA    ₷      ", en: "Donate to gift accessible roads" },
-    donation2:      { jp: " Ԃ    𑡂 ܂  傤!",     en: "iand wheelchairs to Asia!" },
+    // 言語選択画面
+    selectLang:     { jp: "言語を選択してください", en: "SELECT LANGUAGE" },
+    japanese:       { jp: "日本語",               en: "JAPANESE" },
+    english:        { jp: "英語",                 en: "ENGLISH" },
+    // 遊び方画面
+    howToPlay:      { jp: "あそびかた",             en: "HOW TO PLAY" },
+    move:           { jp: "矢印キー: いどう",       en: "ARROW KEYS: MOVE" },
+    itemSpeedDesc:  { jp: " : スピードアップ",      en: ": SPEED UP" },
+    itemLifeDesc:   { jp: " : ライフかいふく",      en: ": LIFE RECOVER" },
+    howToDetails:   { jp: "障害物を避け、アイテムを集めてハイスコアを目指せ！", en: "Avoid obstacles, collect items, and aim for a high score!" },
+    continue:       { jp: "クリックしてつぎへ",     en: "CLICK TO CONTINUE" },
+    // タイトル画面
+    start:          { jp: "クリックしてスタート",   en: "CLICK TO START" },
+    // ゲーム画面
+    time:           { jp: "タイム: ",             en: "TIME: " },
+    score:          { jp: "スコア: ",             en: "SCORE: " },
+    life:           { jp: "ライフ: ",             en: "LIFE: " },
+    spd:            { jp: "スピード: ",           en: "SPD: " },
+    spdMax:         { jp: "スピード: MAX",        en: "SPD: MAX" },
+    // リザルト画面
+    gameClear:      { jp: "ゲームクリア！",         en: "GAME CLEAR" },
+    gameOver:       { jp: "ゲームオーバー",         en: "GAME OVER" },
+    finalScore:     { jp: "最終スコア: ",         en: "FINAL SCORE: " },
+    unpavedInfo:    { jp: "未舗装の道は車いすでは大変です。", en: "Unpaved roads are hard to travel on." },
+    donation1:      { jp: "寄付で、もっと走りやすい道を", en: "Donate to gift accessible roads" },
+    donation2:      { jp: "アジアへ贈りませんか？",   en: "and wheelchairs to Asia!" },
     donationURL:    { jp: "https://wafca.jp/support/donation.html", en: "https://wafca.jp/support/donation.html" },
-    restart:        { jp: " N   b N   ă  X ^ [ g", en: "Click to restart" }
+    restart:        { jp: "クリックしてリスタート", en: "Click to restart" }
 };
-// ---------------------------------------------
 
-//  Q [   ̏ Ԃ ێ     O   [ o   ϐ 
+// ゲーム状態を保持するグローバル変数
 var currentScore = 0;
 var currentLife = 0;
 var currentSpeedLevel = 0;
@@ -56,17 +57,17 @@ var gameTimer = 0;
 var enemyArray = [];
 var player = null;
 
-//    x   I u W F N g  ێ     O   [ o   ϐ 
+// UIラベル
 var scoreLabel, lifeLabel, speedLabel, timerLabel;
 
-//  w i N   X ̒ `
+// 背景クラス
 var Background = Class.create(Group, {
     initialize: function() {
         Group.call(this);
         var img = core.assets['back.png'];
         if (!img) {
-             console.error(" w i 摜 'back.png'         ܂   B");
-             this.imageHeight = 240; //  f t H   g l
+            console.error("背景画像 'back.png' が見つかりません。");
+            this.imageHeight = 240;
         } else {
             this.imageHeight = img.height;
         }
@@ -74,6 +75,7 @@ var Background = Class.create(Group, {
         this.bg1.image = img;
         this.bg1.y = 0;
         this.addChild(this.bg1);
+
         this.bg2 = new Sprite(core.width, this.imageHeight);
         this.bg2.image = img;
         this.bg2.y = -this.imageHeight;
@@ -91,8 +93,7 @@ var Background = Class.create(Group, {
     }
 });
 
-
-//  Q [   ̃  C     W b N   ֐   
+// ゲームのメインロジック開始
 function startGame() {
     var gameScene = new Scene();
 
@@ -108,21 +109,25 @@ function startGame() {
     player = new Player();
     gameScene.addChild(player);
 
+    // タイマー初期設定
     var initialMinutes = Math.floor(GOAL_TIME_SECONDS / 60);
     var initialSeconds = GOAL_TIME_SECONDS % 60;
     var initialTimeString = ("0" + initialMinutes).slice(-2) + ":" + ("0" + initialSeconds).slice(-2);
-     timerLabel = new Label(TEXTS.time[selectedLanguage] + initialTimeString);
+    timerLabel = new Label(TEXTS.time[selectedLanguage] + initialTimeString);
     timerLabel.x = 5; timerLabel.y = 5; timerLabel.color = "white"; timerLabel.font = "16px 'MS Gothic', sans-serif";
     gameScene.addChild(timerLabel);
 
+    // スコアラベル
     scoreLabel = new Label(TEXTS.score[selectedLanguage] + currentScore);
     scoreLabel.x = 5; scoreLabel.y = 25; scoreLabel.color = "white"; scoreLabel.font = "16px 'MS Gothic', sans-serif";
     gameScene.addChild(scoreLabel);
 
+    // ライフラベル
     lifeLabel = new Label(TEXTS.life[selectedLanguage] + currentLife);
     lifeLabel.x = 5; lifeLabel.y = 45; lifeLabel.color = "white"; lifeLabel.font = "16px 'MS Gothic', sans-serif";
     gameScene.addChild(lifeLabel);
 
+    // スピードラベル
     speedLabel = new Label(TEXTS.spd[selectedLanguage] + currentSpeedLevel);
     speedLabel.x = 5; speedLabel.y = 220; speedLabel.color = "white"; speedLabel.font = "16px 'MS Gothic', sans-serif";
     gameScene.addChild(speedLabel);
@@ -132,83 +137,78 @@ function startGame() {
         reDraw();
         itemEnabler();
 
+        // 敵の出現処理
         var rateOfNotAppearance = 94;
-        if(rand(100)>=rateOfNotAppearance){
+        if(rand(100) >= rateOfNotAppearance){
             var enemyX = rand(core.width - 32);
-            var zako=new Enemy(enemyX, -30, 1+rand(10), 1+rand(10));
-            zako.id=core.frame;
-            enemyArray[zako.id]=zako;
+            var zako = new Enemy(enemyX, -30, 1+rand(10), 1+rand(10));
+            zako.id = core.frame;
+            enemyArray[zako.id] = zako;
             gameScene.addChild(zako);
         }
     };
     core.replaceScene(gameScene);
 }
 
-//  V ѕ        
+// 遊び方画面の作成
 function createHowToPlayScene() {
     var howToScene = new Scene();
     howToScene.backgroundColor = 'black';
 
-    // 1.  ^ C g   ("     т   ")
     var title = new Label(TEXTS.howToPlay[selectedLanguage]);
     title.color = "white"; title.font = "20px 'MS Gothic', sans-serif"; title.textAlign = 'center';
     title.width = core.width; title.x = 0; title.y = 20;
     howToScene.addChild(title);
 
-    // 2.       @ ("   L [:    ǂ ")
     var controls = new Label(TEXTS.move[selectedLanguage]);
     controls.color = "white"; controls.font = "16px 'MS Gothic', sans-serif"; controls.textAlign = 'center';
     controls.width = core.width; controls.x = 0; controls.y = 50;
     howToScene.addChild(controls);
 
-    // 2.5.  ڕW ̐   
     var details = new Label(TEXTS.howToDetails[selectedLanguage]);
     details.color = "white"; details.font = "16px 'MS Gothic', sans-serif"; details.textAlign = 'center';
-    details.width = core.width; details.x = 0; details.y = 70; // 'controls'  ̉  ɔz u
+    details.width = core.width; details.x = 0; details.y = 70;
     howToScene.addChild(details);
 
-    // 3.  A C e       ( X s [ h)
+    // スピードアイテムの説明
     var speedItemImg = new Sprite(32, 32);
     if (core.assets['speed.png'] && core.assets['speed.png'].width > 0) {
         speedItemImg.image = core.assets['speed.png'];
     } else {
         speedItemImg.backgroundColor = 'red';
     }
-    speedItemImg.x = 70;
-    speedItemImg.y = 100; // Y   W
+    speedItemImg.x = 70; speedItemImg.y = 100;
     howToScene.addChild(speedItemImg);
     
-    var speedDesc = new Label(TEXTS.itemSpeedDesc[selectedLanguage]); // " F X s [ h A b v"
+    var speedDesc = new Label(TEXTS.itemSpeedDesc[selectedLanguage]);
     speedDesc.color = "white"; speedDesc.font = "16px 'MS Gothic', sans-serif";
     speedDesc.x = speedItemImg.x + speedItemImg.width + 5;
     speedDesc.y = speedItemImg.y + 8;
     howToScene.addChild(speedDesc);
 
-    // 4.  A C e       (   C t)
+    // ライフ回復アイテムの説明
     var lifeItemImg = new Sprite(32, 32);
     if (core.assets['life.png'] && core.assets['life.png'].width > 0) {
         lifeItemImg.image = core.assets['life.png'];
     } else {
         lifeItemImg.backgroundColor = 'blue';
     }
-    lifeItemImg.x = 70;
-    lifeItemImg.y = 150; // Y   W
+    lifeItemImg.x = 70; lifeItemImg.y = 150;
     howToScene.addChild(lifeItemImg);
     
-    var lifeDesc = new Label(TEXTS.itemLifeDesc[selectedLanguage]); // " F   C t     ӂ "
+    var lifeDesc = new Label(TEXTS.itemLifeDesc[selectedLanguage]);
     lifeDesc.color = "white"; lifeDesc.font = "16px 'MS Gothic', sans-serif";
     lifeDesc.x = lifeItemImg.x + lifeItemImg.width + 5;
     lifeDesc.y = lifeItemImg.y + 8;
     howToScene.addChild(lifeDesc);
 
-    // 5.    ֐i ރe L X g (" N   b N   Ă     ")
     var continueText = new Label(TEXTS.continue[selectedLanguage]);
     continueText.color = "white"; continueText.font = "18px 'MS Gothic', sans-serif"; continueText.textAlign = 'center';
     continueText.width = core.width; continueText.x = 0; continueText.y = 210;
     continueText.onenterframe = function() { this.opacity = (core.frame % 20 < 10) ? 1 : 0.5; };
     howToScene.addChild(continueText);
 
-    // 6.  N   b N C x   g ( ^ C g    ʂ )
+    // 画面クリックでゲーム開始
     howToScene.addEventListener(Event.TOUCH_END, function() {
         startGame();
     });
@@ -216,7 +216,7 @@ function createHowToPlayScene() {
     core.replaceScene(howToScene);
 }
 
-//     I     
+// 言語選択画面の作成
 function createLangSelectScene() {
     var langScene = new Scene();
     langScene.backgroundColor = 'black';
@@ -241,13 +241,12 @@ function createLangSelectScene() {
     core.pushScene(langScene);
 }
 
+// ゲーム初期化処理
+window.onload = function(){
+    core = new Core(320, 240);
+    core.fps = 30;
 
-//         Q [   J n   ̃G   g   [ | C   g       
-window.onload=function(){
-    core = new Core(320,240);
-    core.fps=30;
-
-    //        preload   X g       
+    // 画像のプリロード
     core.preload(
         'girl.png',
         'back.png',
@@ -255,26 +254,30 @@ window.onload=function(){
         "life.png",
         "kan.png",
         "isi.png",
-        "kiretu.png",
+        "kiretu.png"
     );
 
     core.onload = function () {
-        createLangSelectScene(); //  ŏ  Ɍ   I    ʂ  Ăяo  
+        createLangSelectScene();
     }
     core.start();
 }
 
-//             G t F N g (Blast)  N   X (    )       
+// 爆発エフェクトクラス (未使用)
 Blast = Class.create(Sprite,{
     initialize: function(x,y){
-        Sprite.call(this,32,32);
-        this.frame=0; this.x=x; this.y=y;
+        Sprite.call(this, 32, 32);
+        this.frame = 0; this.x = x; this.y = y;
     },
-    onenterframe: function(){ this.y+=SCROLL; this.frame++; if(this.frame>15) this.remove(); },
+    onenterframe: function(){ 
+        this.y += SCROLL; 
+        this.frame++; 
+        if(this.frame > 15) this.remove(); 
+    },
     remove: function(){ if (this.parentNode) { this.parentNode.removeChild(this); } }
 });
 
-//  A C e   ( X s [ h)
+// スピードアップアイテム
 ItemSpeed = Class.create(Sprite,{
     initialize: function(x){
         var itemWidth = 32;
@@ -285,20 +288,22 @@ ItemSpeed = Class.create(Sprite,{
             this.image = img;
             this.scaleX = 1; this.scaleY = 1;
         } else {
-            console.error("'speed.png'         Ȃ    A ǂݍ  ߂܂   BItemSpeed");
+            console.error("'speed.png' が見つかりません。");
             Sprite.call(this, itemWidth, itemHeight);
             this.backgroundColor = 'red';
         }
-        this.x=x;
+        this.x = x;
         this.y = -itemHeight - 10;
     },
     onenterframe: function(){
-        this.y+=4;
-        this.opacity = (core.frame % 10 < 5) ? 1.0 : 0.6;
+        this.y += 4;
+        this.opacity = (core.frame % 10 < 5) ? 1.0 : 0.6; // 点滅処理
         var collisionRadius = this.width / 2;
+        
+        // 当たり判定と効果処理
         if(player && this.within(player, collisionRadius + JIKISIZE / 2)){
             this.remove();
-            currentScore+=500;
+            currentScore += 500;
             if(player.spdLv < MAX_SPEED_LEVEL){
                 player.spdLv++;
                 currentSpeedLevel = player.spdLv;
@@ -312,7 +317,7 @@ ItemSpeed = Class.create(Sprite,{
     remove: function(){ if (this.parentNode) { this.parentNode.removeChild(this); } }
 });
 
-//  A C e   (   C t)
+// ライフ回復アイテム
 ItemLife = Class.create(Sprite, {
     initialize: function(x) {
         var itemWidth = 32;
@@ -323,7 +328,7 @@ ItemLife = Class.create(Sprite, {
             this.image = img;
             this.scaleX = 1; this.scaleY = 1;
         } else {
-             console.error("'life.png'         Ȃ    A ǂݍ  ߂܂   BItemLife");
+             console.error("'life.png' が見つかりません。");
              Sprite.call(this, itemWidth, itemHeight);
             this.backgroundColor = 'blue';
         }
@@ -332,8 +337,10 @@ ItemLife = Class.create(Sprite, {
     },
     onenterframe: function() {
         this.y += 4;
-        this.opacity = (core.frame % 10 < 5) ? 1.0 : 0.6;
+        this.opacity = (core.frame % 10 < 5) ? 1.0 : 0.6; // 点滅処理
         var collisionRadius = this.width / 2;
+        
+        // 当たり判定と効果処理
         if (player && this.within(player, collisionRadius + JIKISIZE / 2)) {
             this.remove();
             currentScore += 500;
@@ -344,7 +351,7 @@ ItemLife = Class.create(Sprite, {
     remove: function(){ if (this.parentNode) { this.parentNode.removeChild(this); } }
 });
 
-//    U   g   
+// リザルト画面の作成と表示
 function showResultScene(isClear) {
     core.pause();
     var resultScene = new Scene();
@@ -356,20 +363,18 @@ function showResultScene(isClear) {
     finishText.width = core.width; finishText.x = 0; finishText.y = 30;
     resultScene.addChild(finishText);
 
-    //  ŏI X R A (Y: 60)
     var resultScoreText = new Label(TEXTS.finalScore[selectedLanguage] + currentScore);
     resultScoreText.color = "white"; resultScoreText.font = "16px 'MS Gothic', sans-serif"; resultScoreText.textAlign = 'center';
     resultScoreText.width = core.width; resultScoreText.x = 0; resultScoreText.y = 60;
     resultScene.addChild(resultScoreText);
 
-    //   ܑ  H ̃  b Z [ W
     var unpavedText = new Label(TEXTS.unpavedInfo[selectedLanguage]);
-    unpavedText.color = "#FFDDDD"; //      F  ς  Ėڗ       i      / s   N j
+    unpavedText.color = "#FFDDDD"; 
     unpavedText.font = "14px 'MS Gothic', sans-serif"; 
     unpavedText.textAlign = 'center';
     unpavedText.width = core.width; 
     unpavedText.x = 0; 
-    unpavedText.y = 90; //  X R A ̉  ɔz u
+    unpavedText.y = 90;
     resultScene.addChild(unpavedText);
 
     var donationText1 = new Label(TEXTS.donation1[selectedLanguage]);
@@ -382,20 +387,21 @@ function showResultScene(isClear) {
     donationText2.width = core.width; donationText2.x = 0; donationText2.y = 140;
     resultScene.addChild(donationText2);
 
+    // 寄付リンク
     var donationLink = new Label(TEXTS.donationURL[selectedLanguage]);
     donationLink.color = "#66CCFF"; donationLink.font = "12px 'MS Gothic', sans-serif"; donationLink.textAlign = 'center';
     donationLink.width = core.width; donationLink.x = 0; donationLink.y = 165;
     resultScene.addChild(donationLink);
     donationLink.addEventListener(Event.TOUCH_END, function() { window.open(TEXTS.donationURL[selectedLanguage], '_blank'); });
 
+    // 親ウィンドウへスコア送信
     resultScene.onenter = function() {
-        var playerName = prompt(titleText + "    O    ͂  Ă        i10     ܂Łj", "PLAYER");
+        var playerName = prompt(titleText + " 名前を入力してください(10文字まで)", "PLAYER");
 
         if (playerName && playerName.trim() !== "") {
             var finalScore = currentScore;
             var finalTime = Math.floor(gameTimer / core.fps);
 
-            //  e E B   h E(index.html) ɃX R A f [ ^ 𑗐M
             if (window.parent) {
                 window.parent.postMessage({
                     type: 'saveScore',
@@ -403,41 +409,39 @@ function showResultScene(isClear) {
                     score: finalScore,
                     time: finalTime
                 }, '*');
-
-                console.log(" X R A  e E B   h E ɑ  M   ܂    B");
+                console.log("スコアを送信しました。");
             } else {
-                console.error(" e E B   h E        ܂   B");
+                console.error("送信先の親ウィンドウが見つかりません。");
             }
-            
-
         } 
     };
-    var restartText = new Label(TEXTS.restart[selectedLanguage]); // " N   b N   ă  X ^ [ g"
+
+    var restartText = new Label(TEXTS.restart[selectedLanguage]);
     restartText.color = "white";
     restartText.font = "16px 'MS Gothic', sans-serif";
     restartText.textAlign = 'center';
     restartText.width = core.width;
     restartText.x = 0;
-    restartText.y = 190; //  \   ʒu
+    restartText.y = 190;
     restartText.onenterframe = function() {
-        this.opacity = (core.frame % 20 < 10) ? 1 : 0.7; //  _ ŃG t F N g
+        this.opacity = (core.frame % 20 < 10) ? 1 : 0.7; // 点滅アニメーション
     };
     resultScene.addChild(restartText);
 
+    // 画面クリックでリロード（再スタート）
     restartText.addEventListener(Event.TOUCH_END, function() {
         location.reload(); 
     });
 
     core.replaceScene(resultScene);
-
 }
 
-
-//  A C e   o  
+// アイテム出現管理
 function itemEnabler() {
     var itemWidth = 32;
     var itemMargin = itemWidth / 2;
     var spawnWidth = core.width - itemMargin * 2;
+
     if (player && player.age % ITEMINTERVAL == 0 && rand(100) > 50) {
         var itemX = rand(spawnWidth) + itemMargin;
         var speeditem = new ItemSpeed(itemX);
@@ -450,7 +454,7 @@ function itemEnabler() {
     }
 }
 
-// UI ̍ĕ`  
+// UIラベルの更新処理
 function reDraw() {
     if (scoreLabel) { scoreLabel.text = TEXTS.score[selectedLanguage] + currentScore; }
     if (lifeLabel) { lifeLabel.text = TEXTS.life[selectedLanguage] + currentLife; }
@@ -467,14 +471,14 @@ function reDraw() {
         if (remainingSeconds < 0) { remainingSeconds = 0; }
         var min = Math.floor(remainingSeconds / 60);
         var sec = remainingSeconds % 60;
-     timerLabel.text = TEXTS.time[selectedLanguage] + ("0" + min).slice(-2) + ":" + ("0" + sec).slice(-2);
+        timerLabel.text = TEXTS.time[selectedLanguage] + ("0" + min).slice(-2) + ":" + ("0" + sec).slice(-2);
     }
 }
 
-//  G N   X
+// 敵クラス
 Enemy = Class.create(Sprite,{
     initialize: function(x,y,moveX,moveY){
-        Sprite.call(this,32,32);
+        Sprite.call(this, 32, 32);
         this.type = rand(4);
         
         var img;
@@ -486,22 +490,25 @@ Enemy = Class.create(Sprite,{
             default: img = core.assets['kan.png']; break;
         }
 
-        //      ȓǂݍ  ݃` F b N
+        // 画像の読み込み確認
         if (img && img.width > 0 && img.height > 0) {
             this.image = img;
         } else {
-            console.error(" G ̉摜        Ȃ    A ǂݍ  ߂܂   B ^ C v:", this.type);
-            this.backgroundColor = 'purple'; //  t H [   o b N
+            console.error("敵の画像が見つかりません。タイプ:", this.type);
+            this.backgroundColor = 'purple';
         }
         
-        this.x=x; this.y=y;
-        this.moveX=moveX; this.moveY=moveY; this.baseSpeed = ENEMYSPEED;
+        this.x = x; this.y = y;
+        this.moveX = moveX; this.moveY = moveY; this.baseSpeed = ENEMYSPEED;
+        
+        // タイプ1の場合の横移動アニメーション
         if (this.type === 1) {
             this.tl.moveBy(this.moveX * this.baseSpeed * 0.5, this.moveY * this.baseSpeed * 0.5 + SCROLL * 30, 30, enchant.Easing.SIN_EASEIO)
-                  .moveBy(-this.moveX * this.baseSpeed * 0.5, this.moveY * this.baseSpeed * 0.5 + SCROLL * 30, 30, enchant.Easing.SIN_EASEIO).loop();
+                   .moveBy(-this.moveX * this.baseSpeed * 0.5, this.moveY * this.baseSpeed * 0.5 + SCROLL * 30, 30, enchant.Easing.SIN_EASEIO).loop();
         }
     },
     onenterframe: function(){
+        // 画像に応じたフレーム設定
         if (this.image === core.assets['kan.png']) {
              this.frame = core.frame % 3;
         } else if (this.image === core.assets['isi.png']) {
@@ -511,20 +518,29 @@ Enemy = Class.create(Sprite,{
         }
 
         var currentSpeed = this.baseSpeed / 5 + SCROLL;
+        
+        // 種類ごとの落下処理
         switch(this.type){
             case 0: this.y += currentSpeed; break;
-            case 1: this.y += SCROLL; break; // 'kan' type 1
-            case 2: this.y += currentSpeed * 0.7; break; // 'kiretu'
-            case 3: this.x += Math.cos(core.frame * 0.05 + (this.id || 0)) * 2; this.y += currentSpeed; break; // 'kan' type 3
+            case 1: this.y += SCROLL; break;
+            case 2: this.y += currentSpeed * 0.7; break;
+            case 3: this.x += Math.cos(core.frame * 0.05 + (this.id || 0)) * 2; this.y += currentSpeed; break;
         }
+        
+        // 画面外への削除判定
         if(this.x < -this.width || this.x > core.width || this.y > core.height || this.y < -this.height - 50){ this.remove(); }
-        if(player && player.parentNode && this.within(player,10) ){
+        
+        // 当たり判定処理
+        if(player && player.parentNode && this.within(player, 10) ){
             this.remove(); if (currentLife > 0) { currentLife--; }
         }
+    },
+    remove: function(){
+        if (this.parentNode) { this.parentNode.removeChild(this); }
     }
 });
 
-//  v   C   [ N   X
+// プレイヤークラス
 Player = Class.create(Sprite, {
     initialize: function() {
         Sprite.call(this, JIKISIZE, JIKISIZE);
@@ -532,20 +548,30 @@ Player = Class.create(Sprite, {
         if (img) {
             this.image = img;
         } else {
-            console.error("'girl.png'         ܂   B");
+            console.error("'girl.png' が見つかりません。");
             this.backgroundColor = 'white';
         }
-        this.x = (core.width - JIKISIZE) / 2; this.y = core.height - JIKISIZE - 30;
-        this.spdLv = 0; this.minSpeed = 2; this.maxSpeed = 6; this.nowSpeed = this.minSpeed; this.isGameOver = false;
+        
+        this.x = (core.width - JIKISIZE) / 2; 
+        this.y = core.height - JIKISIZE - 30;
+        this.spdLv = 0; 
+        this.minSpeed = 2; 
+        this.maxSpeed = 6; 
+        this.nowSpeed = this.minSpeed; 
+        this.isGameOver = false;
     },
     onenterframe: function() {
         if (this.isGameOver) return;
+        
+        // キーボード操作による移動処理
         if (core.input.left) { this.x -= this.nowSpeed; if (this.x < 0) this.x = 0; }
         if (core.input.right) { this.x += this.nowSpeed; if ((this.x + JIKISIZE) > core.width) this.x = core.width - JIKISIZE; }
         if (core.input.up) { this.y -= this.nowSpeed; if (this.y < 0) this.y = 0; }
         if (core.input.down) { this.y += this.nowSpeed; if ((this.y + JIKISIZE) > core.height) this.y = core.height - JIKISIZE; }
 
         var currentSeconds = Math.floor(gameTimer / core.fps);
+        
+        // 終了条件の判定
         if (currentLife <= 0) {
             this.isGameOver = true;
             if (this.parentNode) { this.parentNode.removeChild(this); showResultScene(false); }
