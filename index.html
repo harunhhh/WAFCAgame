@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="Shift_JIS">
+    <meta http-equiv="x-ua-compatible" content="IE=Edge">
+    <title>WAFCA game</title>
+    <style type="text/css">
+        body { 
+            margin: 0; 
+            padding: 0; 
+            background-color: #000; 
+            font-family: 'MS Gothic', sans-serif;
+            
+            /* 画面全体に広げ、中身を中央に配置 */
+            display: grid;
+            place-items: center;
+            height: 95vh;
+            width: 110vw;
+            overflow: hidden; /* スクロールバーを隠す */
+        }
+        #wrapper {
+            /* 基準となるサイズ (ランキング200px + 余白20px + ゲーム320px) */
+            width: 540px; 
+            height: 240px; /* ゲームの高さに合わせる */
+            
+            /* 中身を横並びに */
+            display: flex;
+            
+            /* JavaScriptで拡大縮小させるための設定 */
+            transform-origin: center center;
+            transition: transform 0.1s ease-out;
+        }
+        /* ランキングボード */
+        #ranking-board {
+            width: 200px;
+            color: white;
+            order: 1; /* 1番目 */
+            height: 100%;
+            box-sizing: border-box;
+        }
+        #ranking-board h3 {
+            color: yellow;
+            text-align: center;
+            margin-top: 0;
+            margin-bottom: 5px;
+            border-bottom: 1px solid yellow;
+            padding-bottom: 5px;
+        }
+        #ranking-list {
+            list-style-type: none;
+            padding-left: 0;
+            margin: 0;
+            font-size: 14px;
+        }
+        #ranking-list li {
+            display: flex;
+            justify-content: space-between;
+            padding: 4px 5px;
+            border-bottom: 1px dotted #555;
+        }
+        #ranking-list li .name {
+            width: 110px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        #ranking-list li .score {
+            color: yellow;
+            text-align: right;
+        }
+
+        /* ゲーム画面 (iframe) */
+        #game-frame {
+            width: 320px;
+            height: 240px;
+            border: none;
+            order: 2; /* 2番目 */
+            margin-left: 20px;
+        }
+    </style>
+</head>
+<body>
+    
+    <div id="wrapper">
+    
+        <div id="ranking-board">
+            <h3>RANKING - TOP 10</h3>
+            <ol id="ranking-list">
+                <li>Loading...</li>
+            </ol>
+        </div>
+
+        <iframe id="game-frame" src="game.html" onload="this.contentWindow.focus()"></iframe>
+
+    </div> 
+
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+
+    <script>
+        function resizeGame() {
+            var wrapper = document.getElementById('wrapper');
+            
+            // 基準となるサイズ (CSSで設定したものと同じ)
+            var baseWidth = 540;
+            var baseHeight = 240;
+            
+            // 現在のウィンドウサイズ
+            var windowWidth = window.innerWidth;
+            var windowHeight = window.innerHeight;
+            
+            // 幅と高さの拡大率を計算
+            var scaleX = windowWidth / baseWidth;
+            var scaleY = windowHeight / baseHeight;
+            
+            // アスペクト比を維持するため、小さい方の拡大率を採用
+            var scale = Math.min(scaleX, scaleY);
+            
+            // 拡大率をCSSのtransformに適用
+            wrapper.style.transform = 'scale(' + scale + ')';
+        }
+
+        // ウィンドウサイズが変わった時と、
+        window.addEventListener('resize', resizeGame);
+        // ページ読み込みが完了した時に、サイズ計算を実行
+        window.addEventListener('load', resizeGame);
+        // XSS対策用のHTMLエスケープ関数
+        function escapeHTML(str) {
+            if (!str) return "";
+            return str.replace(/[&<>"']/g, function(match) {
+                return {
+                    '&': '&amp;', '<': '&lt;', '>': '&gt;',
+                    '"': '&quot;', "'": '&#39;'
+                }[match];
+            });
+        }
+
+        // Firebase設定
+        const firebaseConfig = {
+            apiKey: "AIzaSyBcB9nl0Gc-uBU3qv3S8tdkeCNaOiOuGZQ",
+            authDomain: "rinti-game.firebaseapp.com",
+            projectId: "rinti-game",
+            storageBucket: "rinti-game.appspot.com",
+            messagingSenderId: "772577048333",
+            appId: "1:772577048333:web:cf8f76cb07a3ddea18a244",
+        };
+
+        var db;
+        try {
+            firebase.initializeApp(firebaseConfig);
+            db = firebase.firestore();
+            db.settings({ persistence: false }); // 競合対策
+            setupRankingListener(); // ランキング監視を開始
+        } catch (e) {
+            console.error("Firebaseの初期化に失敗しました:", e);
+        }
+
+        // ランキングボードをリアルタイムで更新
+        function setupRankingListener() {
+            var rankingListElement = document.getElementById("ranking-list");
+            if (!db) {
+                rankingListElement.innerHTML = "<li>DB Error</li>";
+                return;
+            }
+
+            db.collection("scores").orderBy("score", "desc").limit(10)
+              .onSnapshot(function(querySnapshot) {
+                  rankingListElement.innerHTML = ""; // リストを空にする
+                  var rank = 1;
+                  if (querySnapshot.empty) {
+                      rankingListElement.innerHTML = "<li>まだスコアがありません</li>";
+                      return;
+                  }
+                  querySnapshot.forEach(function(doc) {
+                      var data = doc.data();
+                      var name = escapeHTML(data.name || "NO NAME");
+                      var score = data.score || 0;
+                      var listItem = document.createElement("li");
+                      listItem.innerHTML = 
+                          '<span class="name">' + rank + '. ' + name + '</span>' +
+                          '<span class="score">' + score + '</span>';
+                      rankingListElement.appendChild(listItem);
+                      rank++;
+                  });
+              }, function(error) {
+                  console.error("ランキングの取得に失敗: ", error);
+                  rankingListElement.innerHTML = "<li>読み込みに失敗</li>";
+              });
+        }
+
+        // ★★★ ゲーム(iframe)からスコアを受け取るリスナー ★★★
+        window.addEventListener("message", function(event) {
+            // event.data に { type: 'saveScore', name: 'PLAYER', score: 500, time: 30 } のようなデータが送られてくる
+            if (event.data && event.data.type === 'saveScore') {
+                if (db) {
+                    db.collection("scores").add({
+                        name: event.data.name.substring(0, 10),
+                        score: event.data.score,
+                        time: event.data.time,
+                        createdAt: firebase.firestore.FieldValue.serverTimestamp() // v8の書き方
+                    })
+                    .then(function() {
+                        console.log("スコアを保存しました。");
+                    })
+                    .catch(function(error) {
+                        console.error("スコアの保存に失敗: ", error);
+                    });
+                }
+            }
+        }, false);
+    </script>
+</body>
+</html>
